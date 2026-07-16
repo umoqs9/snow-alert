@@ -27,9 +27,10 @@ def check_snow():
             data = response.json()
             
             # Grabs the 3-day overhead forecast (Index 3)
-            snowfall_cm = data['daily']['snowfall_sum'][-1]
+            snowfall_cm = data['daily']['snowfall_sum'][3]
             
-            if snowfall_cm > 0:
+            # TEST MODE: Changed to -1 so it forces a Discord notification for all three resorts right now
+            if snowfall_cm > -1:
                 send_discord_alert(resort["name"], snowfall_cm, resort["snowatch"])
             else:
                 print(f"No fresh snow forecast in 3 days for {resort['name']}.")
