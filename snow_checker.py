@@ -11,7 +11,7 @@ def check_snow():
         data = response.json()
         
         # Get the predicted snowfall for today (in cm)
-        snowfall_cm = data['daily']['snowfall_sum'][0]
+        snowfall_cm = data['daily']['snowfall_sum'][-1]
         
         # If it's snowing, trigger the Discord alert!
         if snowfall_cm > 0:
