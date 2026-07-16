@@ -29,7 +29,7 @@ def check_snow():
             # Grabs the 3-day overhead forecast (Index 3)
             snowfall_cm = data['daily']['snowfall_sum'][3]
             
-            # TEST MODE: Changed to -1 so it forces a Discord notification for all three resorts right now
+            # TEST MODE: Set to -1 to force all alerts out for our test run
             if snowfall_cm > -1:
                 send_discord_alert(resort["name"], snowfall_cm, resort["snowatch"])
             else:
@@ -44,13 +44,10 @@ def send_discord_alert(resort_name, snow_amount, snowatch_link):
         print("Error: DISCORD_WEBHOOK_URL environment variable not found.")
         return
 
-    payload = {
-        "content": (
-            f"❄️ **Fresh Snow Alert for {resort_name}!** ❄️\n"
-            f"Forecast predicts **{snow_amount} cm** of fresh powder in 3 days! Time to prep! 🏂⛷️\n"
-            f"🔗 Check out the full outlook here: {snowwatch_link}"
-        )
-    }
+    # Flattened payload message text string to ensure zero syntax or formatting errors
+    message_text = f"❄️ **Fresh Snow Alert for {resort_name}!** ❄️\nForecast predicts **{snow_amount} cm** of fresh powder in 3 days! Time to prep! 🏂⛷️\n🔗 Check out the full outlook here: {snowatch_link}"
+    
+    payload = {"content": message_text}
     
     response = requests.post(webhook_url, json=payload)
     if response.status_code == 204:
