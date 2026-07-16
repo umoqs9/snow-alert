@@ -1,0 +1,28 @@
+name: Daily Snow Check
+
+on:
+  schedule:
+    # Runs every day at 6:00 AM Australian Eastern Standard Time (AEST)
+    - cron: '0 20 * * *'
+  workflow_dispatch: # This allows you to run it manually anytime for testing!
+
+jobs:
+  check-snow:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-python: '3.10'
+
+    - name: Install dependencies
+      run: |
+        pip install requests
+
+    - name: Run snow checker script
+      env:
+        DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+      run: python snow_checker.py
