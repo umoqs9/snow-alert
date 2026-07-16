@@ -30,7 +30,7 @@ def check_snow():
             snowfall_cm = data['daily']['snowfall_sum'][3]
             
             # TEST MODE: Set to -1 to force all alerts out for our test run
-            if snowfall_cm > -1:
+            if snowfall_cm > 0:
                 send_discord_alert(resort["name"], snowfall_cm, resort["snowatch"])
             else:
                 print(f"No fresh snow forecast in 3 days for {resort['name']}.")
